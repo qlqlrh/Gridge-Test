@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.common.Constant.SocialLoginType;
+import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.common.oauth.OAuthService;
 import com.example.demo.src.user.entity.User;
 import com.example.demo.utils.JwtService;
@@ -170,6 +171,16 @@ public class UserController {
         }
 
         try {
+            // user의 state 체크
+            GetUserRes user = userService.getUserByEmail(postLoginReq.getEmail());
+            if (user.getState() == BaseEntity.State.INACTIVE) {
+                return new BaseResponse<>(USER_INACTIVE); // 탈퇴
+            } else if (user.getState() == BaseEntity.State.DORMANT) {
+                return new BaseResponse<>(USER_DORMANT); // 휴면
+            } else if (user.getState() == BaseEntity.State.BLOCKED) {
+                return new BaseResponse<>(USER_BLOCKED); // 차단
+            }
+
             PostLoginRes postLoginRes = userService.logIn(postLoginReq);
             return new BaseResponse<>(postLoginRes);
         } catch (BaseException exception) {

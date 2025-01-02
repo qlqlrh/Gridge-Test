@@ -1,6 +1,7 @@
 package com.example.demo.src.user.model;
 
 
+import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,10 +16,12 @@ public class GetUserRes {
     private Long id;
     private String email;
     private String name;
+    private BaseEntity.State state;
 
     public GetUserRes(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.name = user.getName();
+        this.state = user.getState();
     }
 }

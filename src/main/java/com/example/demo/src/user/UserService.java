@@ -147,7 +147,9 @@ public class UserService {
     }
 
     public GetUserRes getUserByEmail(String email) {
-        User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
         return new GetUserRes(user);
     }
 
@@ -156,12 +158,5 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         user.updateConsent(LocalDate.now());
-    }
-
-    public void checkConsentStatus(User user) {
-        LocalDate today = LocalDate.now();
-        if (user.getLastConsentDate().plusYears(1).isBefore(today)) {
-            user.setConsentRequired(true);
-        }
     }
 }

@@ -43,6 +43,9 @@ public enum BaseResponseStatus {
 
     CONSENT_REQUIRED(false, HttpStatus.BAD_REQUEST.value(), "개인정보 처리 동의가 필요합니다."),
 
+    USER_INACTIVE(false, HttpStatus.FORBIDDEN.value(), "탈퇴한 사용자입니다."),
+    USER_DORMANT(false, HttpStatus.FORBIDDEN.value(), "휴면 계정입니다."),
+    USER_BLOCKED(false, HttpStatus.FORBIDDEN.value(), "차단된 사용자입니다."),
 
     /**
      * 500 :  Database, Server 오류
@@ -58,7 +61,6 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_MEMO(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"메모 수정 실패"),
 
     UNEXPECTED_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "예상치 못한 에러가 발생했습니다.");
-
 
     private final boolean isSuccess;
     private final int code;
