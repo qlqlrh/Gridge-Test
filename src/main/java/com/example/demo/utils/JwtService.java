@@ -20,7 +20,7 @@ import static com.example.demo.common.response.BaseResponseStatus.INVALID_JWT;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.secret-key:null}")
     private String JWT_SECRET_KEY;
 
     /*

@@ -35,11 +35,10 @@ dependencies {
     annotationProcessor ('org.projectlombok:lombok:1.18.24')
 
     // DB
-    runtimeOnly ('mysql:mysql-connector-java') //mysql8
-    //runtimeOnly 'mysql:mysql-connector-java:5.1.47' //mysql5
+    runtimeOnly ('mysql:mysql-connector-java') //mysql 8
+    implementation 'mysql:mysql-connector-java:8.0.33'
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
     implementation ('org.springframework.boot:spring-boot-starter-data-jpa')
-
 
     // Web
     implementation ('org.springframework.boot:spring-boot-starter-web')

@@ -22,19 +22,19 @@ import java.util.stream.Collectors;
 public class GoogleOauth implements SocialOauth {
 
     //applications.yml 에서 value annotation을 통해서 값을 받아온다.
-    @Value("${spring.OAuth2.google.url}")
+    @Value("${spring.OAuth2.google.url:null}")
     private String GOOGLE_SNS_URL;
 
-    @Value("${spring.OAuth2.google.client-id}")
+    @Value("${spring.OAuth2.google.client-id:null}")
     private String GOOGLE_SNS_CLIENT_ID;
 
-    @Value("${spring.OAuth2.google.callback-login-url}")
+    @Value("${spring.OAuth2.google.callback-login-url:null}")
     private String GOOGLE_SNS_CALLBACK_LOGIN_URL;
 
-    @Value("${spring.OAuth2.google.client-secret}")
+    @Value("${spring.OAuth2.google.client-secret:null}")
     private String GOOGLE_SNS_CLIENT_SECRET;
 
-    @Value("${spring.OAuth2.google.scope}")
+    @Value("${spring.OAuth2.google.scope:null}")
     private String GOOGLE_DATA_ACCESS_SCOPE;
 
     private final ObjectMapper objectMapper;

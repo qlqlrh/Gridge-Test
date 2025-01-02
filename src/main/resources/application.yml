@@ -14,18 +14,19 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
-    username: # username
-    password: # password
+    url: jdbc:mysql://localhost:3306/demo?autoReconnect=true&setTimezone=Asia/Seoul
+    username: root
+    password: MyNameIsRoot
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
-    # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
   OAuth2:
     google:
       url: https://accounts.google.com/o/oauth2/v2/auth
-      client-id: # client-id
-      client-secret:  # client-secret
+      client-id: 382fd8f51225d3fdc34ab87ade07074e # client-id 수정 필요
+      client-secret: oYeflUqBRhdJFdvHVXbAiDYZVcN49oOE # client-secret 수정 필요
       callback-login-url: http://localhost:9000/app/users/auth/google/login/callback # 등록한 정보에 맞게 수정해주세요
-      scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile # 등록한 정보에 맞게 수정해주세요
+      scope:
+        - https://www.googleapis.com/auth/userinfo.email
+        - https://www.googleapis.com/auth/userinfo.profile # 등록한 정보에 맞게 수정해주세요
 
 spring.sql.init.platform: mysql
 server:
@@ -57,7 +58,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       # create, update, create-drop, none 등의 옵션이 있습니다.
       # create: 기존테이블 삭제 후 다시 생성
       # update: 변경된 부분만 반영
@@ -68,7 +69,7 @@ spring:
     # DDl 생성 시 데이터베이스 고유의 기능 사용여부
     generate-ddl: false
     # 실행되는 쿼리문 보여주기 여부
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         format_sql: false
@@ -81,7 +82,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     generate-ddl: false
@@ -89,4 +90,3 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
