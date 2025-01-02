@@ -26,7 +26,7 @@ public class GoogleUser {
                 .email(this.email)
                 .password("NONE")
                 .name(this.name)
-                .isOAuth(true)
+                .joinType(User.JoinType.GOOGLE)
                 .build();
     }
 }

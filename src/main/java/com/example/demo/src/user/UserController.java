@@ -3,6 +3,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.oauth.OAuthService;
+import com.example.demo.src.user.entity.User;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.exceptions.BaseException;
@@ -42,15 +43,35 @@ public class UserController {
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
-        if(postUserReq.getEmail() == null){
-            return new BaseResponse<>(USERS_EMPTY_EMAIL);
+        try {
+            // 이메일 Null 체크
+            if (postUserReq.getEmail() == null) {
+                return new BaseResponse<>(USERS_EMPTY_EMAIL);
+            }
+
+            // 이메일 정규표현 체크
+            if (!isRegexEmail(postUserReq.getEmail())) {
+                return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+            }
+
+            // 비밀번호 null 체크 (LOCAL 가입만)
+            if (postUserReq.getJoinType() == User.JoinType.LOCAL && postUserReq.getPassword() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
+            }
+
+            // 이름 null 체크
+            if (postUserReq.getName() == null || postUserReq.getName().isEmpty()) {
+                return new BaseResponse<>(POST_USERS_EMPTY_NAME);
+            }
+
+            // 회원가입 로직 실행
+            PostUserRes postUserRes = userService.createUser(postUserReq);
+            return new BaseResponse<>(postUserRes);
+
+        } catch (BaseException e) {
+            log.error("회원가입 중 오류 발생: ", e);
+            return new BaseResponse<>(e.getStatus());
         }
-        //이메일 정규표현
-        if(!isRegexEmail(postUserReq.getEmail())){
-            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
-        }
-        PostUserRes postUserRes = userService.createUser(postUserReq);
-        return new BaseResponse<>(postUserRes);
     }
 
     /**
@@ -130,10 +151,30 @@ public class UserController {
     @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
-        // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
+        // TODO: 로그인 값들에 대한 형식적인 validation 처리해 주셔야합니다!
         // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
-        PostLoginRes postLoginRes = userService.logIn(postLoginReq);
-        return new BaseResponse<>(postLoginRes);
+
+        // 이메일 Null 체크
+        if (postLoginReq.getEmail() == null) {
+            return new BaseResponse<>(USERS_EMPTY_EMAIL);
+        }
+
+        // 이메일 정규표현 체크
+        if (!isRegexEmail(postLoginReq.getEmail())) {
+            return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+        }
+
+        // 비밀번호 null 체크
+        if (postLoginReq.getPassword() == null) {
+            return new BaseResponse<>(FAILED_TO_LOGIN);
+        }
+
+        try {
+            PostLoginRes postLoginRes = userService.logIn(postLoginReq);
+            return new BaseResponse<>(postLoginRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
     }
 
 

@@ -31,18 +31,37 @@ public class UserService {
 
     //POST
     public PostUserRes createUser(PostUserReq postUserReq) {
-        //중복 체크
+        // 이메일로 사용자 중복 체크
         Optional<User> checkUser = userRepository.findByEmailAndState(postUserReq.getEmail(), ACTIVE);
         if(checkUser.isPresent() == true){
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
 
-        String encryptPwd;
-        try {
-            encryptPwd = new SHA256().encrypt(postUserReq.getPassword());
-            postUserReq.setPassword(encryptPwd);
-        } catch (Exception exception) {
-            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        // 가입 수단에 따라 처리 분기
+        if (postUserReq.getJoinType() == User.JoinType.LOCAL) {
+            // LOCAL 회원가입인 경우, 비밀번호 암호화
+            String encryptPwd;
+            try {
+                encryptPwd = new SHA256().encrypt(postUserReq.getPassword());
+                postUserReq.setPassword(encryptPwd); // 비밀번호 암호화
+            } catch (Exception exception) {
+                throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+            }
+
+            // 소셜 ID는 null로 설정
+            postUserReq.setSocialId(null);
+
+        } else if (postUserReq.getJoinType() == User.JoinType.GOOGLE ||
+                postUserReq.getJoinType() == User.JoinType.KAKAO) {
+            // 소셜 로그인인 경우, 비밀번호를 null로 설정
+            postUserReq.setPassword(null);
+
+            // 소셜 ID가 없는 경우 예외 처리
+            if (postUserReq.getSocialId() == null) {
+                throw new BaseException(INVALID_SOCIAL_ID);
+            }
+        } else {
+            throw new BaseException(INVALID_JOIN_TYPE);
         }
 
         User saveUser = userRepository.save(postUserReq.toEntity());
@@ -103,9 +122,11 @@ public class UserService {
     }
 
     public PostLoginRes logIn(PostLoginReq postLoginReq) {
+        // 이메일로 사용자 조회 후, ACTIVE 상태인지 체크
         User user = userRepository.findByEmailAndState(postLoginReq.getEmail(), ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
 
+        // 비밀번호 암호화 후, 체크
         String encryptPwd;
         try {
             encryptPwd = new SHA256().encrypt(postLoginReq.getPassword());
@@ -113,6 +134,7 @@ public class UserService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
 
+        // JWT 생성
         if(user.getPassword().equals(encryptPwd)){
             Long userId = user.getId();
             String jwt = jwtService.createJwt(userId);
