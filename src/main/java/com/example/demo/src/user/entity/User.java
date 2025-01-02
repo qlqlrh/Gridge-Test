@@ -34,16 +34,16 @@ public class User extends BaseEntity {
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "join_type", nullable = false, length = 20)
+    @Column(name = "joinType", nullable = false, length = 20)
     private JoinType joinType;
 
-    @Column(name = "social_id")
+    @Column(name = "socialId")
     private String socialId;
 
-    @Column(name = "last_consent_date", nullable = false)
+    @Column(name = "lastConsentDate", nullable = false)
     private LocalDate lastConsentDate;
 
-    @Column(name = "consent_required", nullable = false)
+    @Column(name = "consentRequired", nullable = false)
     private boolean consentRequired;
 
     @Builder
@@ -75,8 +75,16 @@ public class User extends BaseEntity {
         this.state = State.BLOCKED;
     }
 
+    public void setConsentRequired(boolean consentRequired) {
+        this.consentRequired = consentRequired;
+    }
+
     public enum JoinType {
         LOCAL, GOOGLE, KAKAO, NAVER, APPLE
     }
 
+    public void updateConsent(LocalDate lastConsentDate) {
+        this.lastConsentDate = lastConsentDate;
+        this.consentRequired = false;
+    }
 }

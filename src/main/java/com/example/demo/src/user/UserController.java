@@ -207,5 +207,14 @@ public class UserController {
         return new BaseResponse<>(getSocialOAuthRes);
     }
 
+    /**
+     * 개인정보 처리 동의 갱신 API
+     * [POST] /app/users/{userId}/consent
+     */
+    @PostMapping("/{userId}/consent")
+    public BaseResponse<String> updateConsent(@PathVariable Long userId) {
+        userService.updateConsent(userId);
+        return new BaseResponse<>("동의가 갱신되었습니다.");
+    }
 
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -148,5 +149,19 @@ public class UserService {
     public GetUserRes getUserByEmail(String email) {
         User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
         return new GetUserRes(user);
+    }
+
+    @Transactional
+    public void updateConsent(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.updateConsent(LocalDate.now());
+    }
+
+    public void checkConsentStatus(User user) {
+        LocalDate today = LocalDate.now();
+        if (user.getLastConsentDate().plusYears(1).isBefore(today)) {
+            user.setConsentRequired(true);
+        }
     }
 }
