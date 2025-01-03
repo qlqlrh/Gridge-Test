@@ -22,12 +22,4 @@ public class BaseEntity {
     @UpdateTimestamp
     @Column(name = "updatedAt", nullable = false)
     private LocalDateTime updatedAt;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state", nullable = false, length = 10)
-    protected State state = State.ACTIVE;
-
-    public enum State {
-        ACTIVE, INACTIVE, DORMANT, BLOCKED // 활성, 탈퇴, 휴면, 차단
-    }
 }

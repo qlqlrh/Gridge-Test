@@ -2,10 +2,10 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.common.Constant.SocialLoginType;
-import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.common.oauth.OAuthService;
 import com.example.demo.src.user.entity.User;
 import com.example.demo.utils.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
@@ -39,7 +39,7 @@ public class UserController {
      * [POST] /app/users
      * @return BaseResponse<PostUserRes>
      */
-    // Body
+    @Operation(summary = "회원가입")
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
@@ -82,7 +82,6 @@ public class UserController {
      * [GET] /app/users? Email=
      * @return BaseResponse<List<GetUserRes>>
      */
-    //Query String
     @ResponseBody
     @GetMapping("") // (GET) 127.0.0.1:9000/app/users
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
@@ -100,7 +99,6 @@ public class UserController {
      * [GET] /app/users/:userId
      * @return BaseResponse<GetUserRes>
      */
-    // Path-variable
     @ResponseBody
     @GetMapping("/{userId}") // (GET) 127.0.0.1:9000/app/users/:userId
     public BaseResponse<GetUserRes> getUser(@PathVariable("userId") Long userId) {
@@ -115,6 +113,7 @@ public class UserController {
      * [PATCH] /app/users/:userId
      * @return BaseResponse<String>
      */
+    @Operation(summary = "사용자 이름 변경")
     @ResponseBody
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUserName(@PathVariable("userId") Long userId, @RequestBody PatchUserReq patchUserReq){
@@ -149,6 +148,7 @@ public class UserController {
      * [POST] /app/users/logIn
      * @return BaseResponse<PostLoginRes>
      */
+    @Operation(summary = "로그인")
     @ResponseBody
     @PostMapping("/logIn")
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
@@ -173,11 +173,11 @@ public class UserController {
         try {
             // user의 state 체크
             GetUserRes user = userService.getUserByEmail(postLoginReq.getEmail());
-            if (user.getState() == BaseEntity.State.INACTIVE) {
+            if (user.getState() == User.State.INACTIVE) {
                 return new BaseResponse<>(USER_INACTIVE); // 탈퇴
-            } else if (user.getState() == BaseEntity.State.DORMANT) {
+            } else if (user.getState() == User.State.DORMANT) {
                 return new BaseResponse<>(USER_DORMANT); // 휴면
-            } else if (user.getState() == BaseEntity.State.BLOCKED) {
+            } else if (user.getState() == User.State.BLOCKED) {
                 return new BaseResponse<>(USER_BLOCKED); // 차단
             }
 
@@ -222,6 +222,7 @@ public class UserController {
      * 개인정보 처리 동의 갱신 API
      * [POST] /app/users/{userId}/consent
      */
+    @Operation(summary = "개인정보처리 동의 갱신")
     @PostMapping("/{userId}/consent")
     public BaseResponse<String> updateConsent(@PathVariable Long userId) {
         userService.updateConsent(userId);

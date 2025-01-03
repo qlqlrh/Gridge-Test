@@ -13,12 +13,12 @@ import static com.example.demo.common.entity.BaseEntity.*;
 
 public interface MemoRepository extends JpaRepository<Memo, Long> {
 
-    List<Memo> findByMemoAndState(String memo, State state);
+    List<Memo> findByMemoAndState(String memo, Memo.State state);
     //List<Memo> findAllByState(State state);
 
-    Slice<Memo> findAllByState(State state, Pageable pageable);
+    Slice<Memo> findAllByState(Memo.State state, Pageable pageable);
 
-    Optional<Memo> findByIdAndState(Long memoId, State state);
+    Optional<Memo> findByIdAndState(Long memoId, Memo.State state);
 
     // Query문을 활용한 Fetch Join 예제
 //    @Query("select m from Memo m left join fetch m.commentList where m.state = :state")

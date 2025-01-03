@@ -1,6 +1,5 @@
 package com.example.demo.src.test;
 
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.test.model.PostCommentDto;
 import com.example.demo.src.test.model.GetMemoDto;
@@ -14,8 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.example.demo.common.response.BaseResponseStatus.*;
 
 
 @Tag(name = "test 도메인", description = "메모 API, 코멘트 API") // swagger 접속: http://localhost:9000/swagger-ui/index.html

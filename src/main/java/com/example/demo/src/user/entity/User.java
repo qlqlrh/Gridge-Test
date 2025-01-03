@@ -46,6 +46,18 @@ public class User extends BaseEntity {
     @Column(name = "consentRequired", nullable = false)
     private boolean consentRequired;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false, length = 10)
+    protected State state = State.ACTIVE;
+
+    public enum State {
+        ACTIVE, INACTIVE, DORMANT, BLOCKED // 활성, 탈퇴, 휴면, 차단
+    }
+
+    public enum JoinType {
+        LOCAL, GOOGLE, KAKAO, NAVER, APPLE
+    }
+
     @Builder
     public User(String name, String email, String phoneNumber, String password, LocalDate birthday, JoinType joinType, String socialId, LocalDate lastConsentDate, boolean consentRequired) {
         this.name = name;
@@ -77,10 +89,6 @@ public class User extends BaseEntity {
 
     public void setConsentRequired(boolean consentRequired) {
         this.consentRequired = consentRequired;
-    }
-
-    public enum JoinType {
-        LOCAL, GOOGLE, KAKAO, NAVER, APPLE
     }
 
     public void updateConsent(LocalDate lastConsentDate) {

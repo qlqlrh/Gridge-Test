@@ -5,6 +5,8 @@ spring:
       prod: common, prod
 ---
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
   config:
     activate:
       on-profile: "common"
@@ -73,7 +75,6 @@ spring:
     properties:
       hibernate:
         format_sql: false
-
 ---
 spring:
   config:

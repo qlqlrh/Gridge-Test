@@ -6,14 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.demo.common.entity.BaseEntity.*;
-
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByIdAndState(Long id, State state);
-    Optional<User> findByEmailAndState(String email, State state);
-    List<User> findAllByEmailAndState(String email, State state);
-    List<User> findAllByState(State state);
+    Optional<User> findByIdAndState(Long id, User.State state);
+    Optional<User> findByEmailAndState(String email, User.State state);
+    List<User> findAllByEmailAndState(String email, User.State state);
+    List<User> findAllByState(User.State state);
 
     Optional<User> findByEmail(String email);
 }

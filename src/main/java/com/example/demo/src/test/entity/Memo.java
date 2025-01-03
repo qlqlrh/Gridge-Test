@@ -3,6 +3,7 @@ package com.example.demo.src.test.entity;
 
 import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.test.model.MemoDto;
+import com.example.demo.src.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,14 @@ public class Memo extends BaseEntity {
     // @BatchSize(size = 5) // BatchSize 설정 예제
     @OneToMany(mappedBy = "memo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Comment> commentList = new ArrayList<Comment>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false, length = 10)
+    protected User.State state = User.State.ACTIVE;
+
+    public enum State {
+        ACTIVE, INACTIVE, DORMANT, BLOCKED // 활성, 탈퇴, 휴면, 차단
+    }
 
     public void makeMemo(MemoDto memoDto) {
         this.memo = memoDto.getMemo();
