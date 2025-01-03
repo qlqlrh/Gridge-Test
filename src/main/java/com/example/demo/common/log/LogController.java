@@ -30,9 +30,8 @@ public class LogController {
             @RequestParam Log.Action action,
             @RequestParam String message,
             @RequestParam String category,
-            @RequestParam String entityType,
             @RequestParam Long entityId) {
-        logService.saveLog(action, message, category, entityType, entityId);
+        logService.saveLog(action, message, category, entityId);
         return new BaseResponse<>("로그 저장 완료");
     }
 

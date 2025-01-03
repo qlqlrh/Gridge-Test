@@ -14,12 +14,11 @@ public class LogService {
     private final LogRepository logRepository;
 
     // 로그 저장
-    public void saveLog(Log.Action action, String message, String category, String entityType, Long entityId) {
+    public void saveLog(Log.Action action, String message, String category, Long entityId) {
         Log log = Log.builder()
                 .action(action)
                 .message(message)
                 .category(category)
-                .entityType(entityType)
                 .entityId(entityId)
                 .createdAt(LocalDateTime.now())
                 .build();

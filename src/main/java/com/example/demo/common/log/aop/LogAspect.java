@@ -36,7 +36,6 @@ public class LogAspect {
                         Log.Action.CREATE,
                         "User created with ID: " + userId,
                         "User",
-                        "User",
                         userId
                 );
             }
@@ -60,7 +59,6 @@ public class LogAspect {
         logService.saveLog(
                 Log.Action.UPDATE,
                 "User updated with ID: " + entityId + ", Updated Name: " + updatedName,
-                "User",
                 entityType,
                 entityId
         );
@@ -78,7 +76,6 @@ public class LogAspect {
         logService.saveLog(
                 Log.Action.UPDATE,
                 "Consent updated for User with ID: " + entityId,
-                "User",
                 entityType,
                 entityId
         );
@@ -96,7 +93,6 @@ public class LogAspect {
         logService.saveLog(
                 Log.Action.DELETE,
                 "User deleted with ID: " + entityId,
-                "User",
                 entityType,
                 entityId
         );

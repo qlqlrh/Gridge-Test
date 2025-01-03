@@ -28,9 +28,6 @@ public class Log {
     @Column(nullable = false, length = 50)
     private String category;
 
-    @Column(nullable = true, length = 50)
-    private String entityType;
-
     @Column(nullable = true)
     private Long entityId;
 
@@ -39,11 +36,10 @@ public class Log {
     private LocalDateTime createdAt;
 
     @Builder
-    public Log(Action action, String message, String category, String entityType, Long entityId, LocalDateTime createdAt) {
+    public Log(Action action, String message, String category, Long entityId, LocalDateTime createdAt) {
         this.action = action;
         this.message = message;
         this.category = category;
-        this.entityType = entityType;
         this.entityId = entityId;
         this.createdAt = createdAt;
     }
