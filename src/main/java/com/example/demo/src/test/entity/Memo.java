@@ -31,7 +31,7 @@ public class Memo extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false, length = 10)
-    protected User.State state = User.State.ACTIVE;
+    protected Memo.State state = Memo.State.ACTIVE;
 
     public enum State {
         ACTIVE, INACTIVE, DORMANT, BLOCKED // 활성, 탈퇴, 휴면, 차단

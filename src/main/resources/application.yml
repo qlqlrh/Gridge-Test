@@ -16,10 +16,11 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?autoReconnect=true&setTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/demo?autoReconnect=true&setTimezone=Asia/Seoul?useUnicode=true&characterEncoding=utf8
     username: root
     password: MyNameIsRoot
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+
   OAuth2:
     google:
       url: https://accounts.google.com/o/oauth2/v2/auth
