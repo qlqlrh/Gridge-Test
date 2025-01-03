@@ -55,8 +55,8 @@ public class LogController {
     @Operation(summary = "날짜 범위로 로그 조회", description = "시작일과 종료일을 기준으로 로그를 조회합니다.")
     @GetMapping("/date")
     public BaseResponse<List<Log>> getLogsByDateRange(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
         List<Log> logs = logService.getLogsByDateRange(startDate, endDate);
         return new BaseResponse<>(logs);
     }
@@ -70,8 +70,8 @@ public class LogController {
     @GetMapping("/category")
     public BaseResponse<List<Log>> getLogsByCategoryAndDate(
             @RequestParam String category,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
         List<Log> logs = logService.getLogsByCategoryAndDate(category, startDate, endDate);
         return new BaseResponse<>(logs);
     }
